@@ -1,0 +1,14 @@
+(function(){const o=document.createElement("link").relList;if(o&&o.supports&&o.supports("modulepreload"))return;for(const e of document.querySelectorAll('link[rel="modulepreload"]'))t(e);new MutationObserver(e=>{for(const n of e)if(n.type==="childList")for(const l of n.addedNodes)l.tagName==="LINK"&&l.rel==="modulepreload"&&t(l)}).observe(document,{childList:!0,subtree:!0});function s(e){const n={};return e.integrity&&(n.integrity=e.integrity),e.referrerpolicy&&(n.referrerPolicy=e.referrerpolicy),e.crossorigin==="use-credentials"?n.credentials="include":e.crossorigin==="anonymous"?n.credentials="omit":n.credentials="same-origin",n}function t(e){if(e.ep)return;e.ep=!0;const n=s(e);fetch(e.href,n)}})();(function(){const r=document.createElement("link").relList;if(r&&r.supports&&r.supports("modulepreload"))return;for(const t of document.querySelectorAll('link[rel="modulepreload"]'))s(t);new MutationObserver(t=>{for(const e of t)if(e.type==="childList")for(const n of e.addedNodes)n.tagName==="LINK"&&n.rel==="modulepreload"&&s(n)}).observe(document,{childList:!0,subtree:!0});function o(t){const e={};return t.integrity&&(e.integrity=t.integrity),t.referrerpolicy&&(e.referrerPolicy=t.referrerpolicy),t.crossorigin==="use-credentials"?e.credentials="include":t.crossorigin==="anonymous"?e.credentials="omit":e.credentials="same-origin",e}function s(t){if(t.ep)return;t.ep=!0;const e=o(t);fetch(t.href,e)}})();const p="/assets/bot-aeae2605.svg",m="/assets/user-55ee9f37.svg",c=document.querySelector("form"),i=document.querySelector("#chat_container"),d=document.querySelector(".chatHello");let u;const g=r=>{r.textContent="",d.textContent="",u=setInterval(()=>{r.textContent+=".",r.textContent==="...."&&(r.textContent="")},300)},y=(r,o)=>{let s=0,t=setInterval(()=>{s<o.length?(r.innerHTML+=o.charAt(s),s++):clearInterval(t)},20)},h=()=>{const r=Date.now(),o=Math.random().toString(16);return`id-${r}-${o}`},a=(r,o,s)=>`
+      <div class="wrapper ${r&&"ai"}">
+        <div class="chat">
+          <div class="profile">
+            <img 
+              src="${r?p:m}"
+            />
+          </div>
+          <div class="message" id=${s}>
+            ${o}
+          </div>
+        </div>
+      </div>
+    `,f=async r=>{r.preventDefault();const o=new FormData(c);i.innerHTML+=a(!1,o.get("prompt")),d.innerHTML="",c.reset();let s=h();i.innerHTML+=a(!0," ",s),i.scrollTop=i.scrollHeight;const t=document.getElementById(s);g(t);const e=await fetch("https://gptwellsoft.onrender.com/",{method:"POST",headers:{"Content-type":"application/json"},body:JSON.stringify({prompt:o.get("prompt")})});if(clearInterval(u),t.innerHTML="",e.ok){const n=(await e.json()).bot.trim();console.log({parsedData:n}),y(t,n)}else{const n=await e.text();alert(n)}};c.addEventListener("submit",f);c.addEventListener("keyup",r=>{r.keyCode===13&&f(r)});
